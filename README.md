@@ -27,7 +27,7 @@ No local Java, Maven, or Payara installation is required when using Docker.
 
 ```bash
 git clone https://github.com/qfwz/priority-broadcast-engine.git
-cd priority-broadcast
+cd priority-broadcast-engine
 ```
 
 ### 2. Build the Docker image
@@ -39,12 +39,12 @@ docker build -t priority-broadcast .
 ### 3. Run the application
 
 ```bash
-docker run --rm -p 8080:8080 priority-broadcast
+docker run --rm --name priority-broadcast-app -p 8080:8080 priority-broadcast
 ```
 
 ### 4. Open the application
 
-Open:
+Open the following URL in your browser:
 
 ```text
 http://localhost:8080/priority-broadcast/broadcast.xhtml
@@ -72,17 +72,13 @@ If the application is running in the foreground, press:
 Ctrl + C
 ```
 
-If the container is running in the background, find the container with:
+Alternatively, from another terminal:
 
 ```bash
-docker ps
+docker stop priority-broadcast-app
 ```
 
-Then stop it with:
-
-```bash
-docker stop <container-id>
-```
+Because the container is started with `--rm`, the container is automatically removed after it is stopped.
 
 ## Challenge Answers
 
