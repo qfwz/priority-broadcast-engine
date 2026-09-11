@@ -26,7 +26,7 @@ No local Java, Maven, or Payara installation is required when using Docker.
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/qfwz/priority-broadcast-engine.git
 cd priority-broadcast
 ```
 
