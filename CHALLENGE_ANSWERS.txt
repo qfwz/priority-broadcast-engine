@@ -1,0 +1,34 @@
+1. Architecture: Why did you choose your specific threading/asynchronicity model
+    (e.g., CompletableFuture, @Asynchronous, etc.)?
+
+I chose CompletableFuture with a fixed-size ExecutorService because the broadcast
+process should run in the background and should not block the JSF request.
+Each selected customer can be processed independently, while the fixed thread pool
+limits how many tasks can run at the same time.
+
+I also use AJAX polling to check the latest status of the broadcast and update the
+progress shown on the page.
+
+
+2. Scalability: If this broadcast had 50,000 recipients instead of 10, what changes
+    would you make to your current implementation to ensure system stability?
+
+If the number of recipients increased to 50,000, I would not process all recipients
+by creating a thread for each one. I would keep a limited number of worker threads
+and process the recipients in smaller batches.
+
+For a production system, I would also store the broadcast and delivery status in a data-
+base instead of keeping it only in the JSF view. A queue could also be used to manage a
+large number of broadcast tasks and distribute the work between multiple workers.
+
+
+3. Resilience: How would you handle a "Rate Limit" error from the external API to ensure
+   no messages are lost?
+
+If the external API returns a rate limit error, I would retry the message after waiting
+for some time instead of retrying immediately. The waiting time could increase after each
+failed attempt, with a maximum number of retries.
+
+I would also store the delivery status so that messages that have not been successfully
+processed can be retried later. Each message should have a unique ID so that retrying the
+same message does not accidentally send it more than once.

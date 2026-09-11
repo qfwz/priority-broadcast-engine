@@ -83,3 +83,7 @@ Then stop it with:
 ```bash
 docker stop <container-id>
 ```
+
+## Challenge Answers
+
+The answers to the challenge questions are provided in `CHALLENGE_ANSWERS.txt`.
