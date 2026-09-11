@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Priority Broadcast</title>
+</h:head>
+
+<h:body>
+
+    <h:form id="broadcastForm">
+
+        <p:panel header="Priority Broadcast">
+
+            <p:dataTable id="customerTable"
+                         value="#{broadcastBean.customers}"
+                         var="customer"
+                         selection="#{broadcastBean.selectedCustomers}"
+                         rowKey="#{customer.id}"
+                         styleClass="customer-table">
+
+                <p:column selectionMode="multiple"
+                          style="width:40px;text-align:center"/>
+
+                <p:column headerText="Name">
+                    <h:outputText value="#{customer.name}"/>
+                </p:column>
+
+                <p:column headerText="Phone Number">
+                    <h:outputText value="#{customer.phoneNumber}"/>
+                </p:column>
+
+                <p:column headerText="Status">
+                    <h:outputText value="#{customer.status}"/>
+                </p:column>
+
+                <p:column headerText="Error">
+                    <h:outputText value="#{customer.lastError}"/>
+                </p:column>
+
+            </p:dataTable>
+
+            <br/>
+
+            <p:commandButton id="startButton"
+                             value="Start Priority Broadcast"
+                             action="#{broadcastBean.startBroadcast}"
+                             process="@form"
+                             update="customerTable startButton statusPoll"
+                             disabled="#{broadcastBean.running}"/>
+
+            <p:poll id="statusPoll"
+                    interval="1"
+                    listener="#{broadcastBean.tick}"
+                    update="customerTable startButton"/>
+
+        </p:panel>
+
+    </h:form>
+
+</h:body>
+
+</html>

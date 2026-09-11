@@ -1,0 +1,6 @@
+com\threedolphins\broadcast\model\MessageStatus.class
+com\threedolphins\broadcast\service\WhatsAppIntegrationService.class
+com\threedolphins\broadcast\bean\BroadcastBean.class
+com\threedolphins\broadcast\model\Customer.class
+com\threedolphins\broadcast\service\BroadcastExecutorProvider.class
+com\threedolphins\broadcast\service\BroadcastService.class
