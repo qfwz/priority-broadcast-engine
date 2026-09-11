@@ -8,6 +8,12 @@
 
 <h:head>
     <title>Priority Broadcast</title>
+
+    <style>
+        .ui-progressbar .ui-progressbar-value {
+            background: #28a745 !important;
+        }
+    </style>
 </h:head>
 
 <h:body>
@@ -50,13 +56,18 @@
                              value="Start Priority Broadcast"
                              action="#{broadcastBean.startBroadcast}"
                              process="@form"
-                             update="customerTable startButton statusPoll"
+                             update="customerTable startButton"
                              disabled="#{broadcastBean.running}"/>
+
+            <p:progressBar id="progressBar"
+                           value="#{broadcastBean.progressPercentage}"
+                           labelTemplate="{value}%"
+                           displayOnly="true"/>
 
             <p:poll id="statusPoll"
                     interval="1"
                     listener="#{broadcastBean.tick}"
-                    update="customerTable startButton"/>
+                    update="customerTable startButton progressBar"/>
 
         </p:panel>
 

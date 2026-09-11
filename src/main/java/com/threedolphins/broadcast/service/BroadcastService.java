@@ -18,14 +18,11 @@ public class BroadcastService {
     @Inject
     private ExecutorService broadcastExecutor;
 
-    public void startBroadcast(List<Customer> customers, Runnable onComplete) {
+    public void startBroadcast(List<Customer> customers) {
 
-        CompletableFuture<?>[] futures = customers.stream()
+        customers.stream()
                 .map(this::sendToOne)
                 .toArray(CompletableFuture[]::new);
-
-        CompletableFuture.allOf(futures)
-                .whenComplete((result, error) -> onComplete.run());
     }
 
     private CompletableFuture<Void> sendToOne(Customer customer) {

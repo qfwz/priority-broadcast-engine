@@ -54,8 +54,7 @@ public class BroadcastBean implements Serializable {
         resetSelectedCustomers();
 
         broadcastService.startBroadcast(
-                new ArrayList<>(selectedCustomers),
-                () -> running = false
+                new ArrayList<>(selectedCustomers)
         );
     }
 
@@ -67,7 +66,9 @@ public class BroadcastBean implements Serializable {
     }
 
     public void tick() {
-        // Polling method used to trigger JSF AJAX updates.
+        if (running && getCompletedCount() == selectedCustomers.size()) {
+            running = false;
+        }
     }
 
     public List<Customer> getCustomers() {
@@ -86,7 +87,24 @@ public class BroadcastBean implements Serializable {
         return running;
     }
 
-    public void broadcastFinished() {
-        running = false;
+
+    public int getCompletedCount() {
+        if (selectedCustomers == null) {
+            return 0;
+        }
+
+        return (int) selectedCustomers.stream()
+                .filter(customer ->
+                        customer.getStatus() == MessageStatus.SENT ||
+                                customer.getStatus() == MessageStatus.FAILED)
+                .count();
+    }
+
+    public int getProgressPercentage() {
+        if (selectedCustomers == null || selectedCustomers.isEmpty()) {
+            return 0;
+        }
+
+        return (getCompletedCount() * 100) / selectedCustomers.size();
     }
 }
